@@ -1,0 +1,8 @@
+model:
+  params:
+    random_state: 42
+    max_depth: 5
+
+split:
+  seed: 42
+

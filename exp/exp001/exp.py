@@ -4,21 +4,29 @@ import pandas as pd
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 
-
-def get_datasets():
-    iris = load_iris()
-    data = iris.data
-    target = iris.target
-    feature_names = iris.feature_names
-    df = pd.DataFrame(data, columns=feature_names)
-    return df, target
+import util
 
 
 def run():
     print('start')
-    df, target = get_datasets()
-    X_train, X_valid, y_train, y_valid = train_test_split(df, target, test_size=0.33, random_state=42)
+
+    # datast
+    df, target = util.get_datasets()
+    X_train, X_valid, y_train, y_valid = train_test_split(df, target, test_size=0.5, random_state=42)
+
+    # fit
+    model = RandomForestClassifier(random_state=42)
+    model.fit(X_train, y_train)
+
+    # pred
+    X_valid_pred = model.predict(X_valid)
+
+    # eval
+    acc_valid = accuracy_score(y_valid, X_valid_pred)
+    print(f'acc_valid: {acc_valid:.5f}')
+
 
 
 def exp():

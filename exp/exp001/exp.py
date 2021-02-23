@@ -1,7 +1,7 @@
 from ipdb import set_trace as st
+import os
+import yaml
 import numpy as np
-import pandas as pd
-from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
@@ -9,8 +9,15 @@ from sklearn.metrics import accuracy_score
 import util
 
 
-def run():
+def run(run_name, config_update):
     print('start')
+
+    pwd = os.path.dirname(os.path.abspath(__file__))
+    with open(f'{pwd}/config.yml', 'r') as yml:
+        config = yaml.safe_load(yml)
+
+    # init_exp
+    dir_save, config = util.init_exp(config, config_update, run_name)
 
     # datast
     df, target = util.get_datasets()
@@ -30,8 +37,30 @@ def run():
 
 
 def exp():
-    run()
 
+    list_config_str = [
+    '''
+    model:
+        params:
+            max_depth: 3
+    ''',
+    '''
+    model:
+        params:
+            max_depth: 10
+    ''',
+    '''
+    model:
+        params:
+            max_depth: 20
+    ''',
+    ]
+
+
+    for i_run, config_str in enumerate(list_config_str, 1):
+        config_update = yaml.safe_load(config_str)
+        run_name = f'run{str(i_run).zfill(3)}'
+        run(run_name, config_update)
 
 if __name__ == '__main__':
     exp()

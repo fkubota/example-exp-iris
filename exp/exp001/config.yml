@@ -1,3 +1,6 @@
+path:
+  dir_save: '../../data/output/exp/'
+
 model:
   params:
     random_state: 42

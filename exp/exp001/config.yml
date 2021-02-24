@@ -7,5 +7,5 @@ model:
     max_depth: 5
 
 split:
-  seed: 42
+  random_state: 42
 

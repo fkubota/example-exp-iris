@@ -3,14 +3,14 @@ import os
 import yaml
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 
 import util
 
 
 def run(run_name, config_update):
-    print('start')
+    print(f'\nstart: {run_name}')
 
     pwd = os.path.dirname(os.path.abspath(__file__))
     with open(f'{pwd}/config.yml', 'r') as yml:
@@ -18,13 +18,16 @@ def run(run_name, config_update):
 
     # init_exp
     dir_save, config = util.init_exp(config, config_update, run_name)
+    model_params = config['model']['params']
+    split_params = config['split']
 
     # datast
     df, target = util.get_datasets()
-    X_train, X_valid, y_train, y_valid = train_test_split(df, target, test_size=0.5, random_state=42)
+    X_train, X_valid, y_train, y_valid = train_test_split(df, target, test_size=0.3, **split_params)
 
     # fit
-    model = RandomForestClassifier(random_state=42)
+    print(model_params)
+    model = DecisionTreeClassifier(**model_params)
     model.fit(X_train, y_train)
 
     # pred
@@ -42,17 +45,17 @@ def exp():
     '''
     model:
         params:
+            max_depth: 1
+    ''',
+    '''
+    model:
+        params:
+            max_depth: 2
+    ''',
+    '''
+    model:
+        params:
             max_depth: 3
-    ''',
-    '''
-    model:
-        params:
-            max_depth: 10
-    ''',
-    '''
-    model:
-        params:
-            max_depth: 20
     ''',
     ]
 

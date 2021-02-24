@@ -1,0 +1,5 @@
+model:
+  params:
+    max_iter: 10
+split:
+  random_state: 1

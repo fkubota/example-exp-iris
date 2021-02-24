@@ -3,8 +3,7 @@ path:
 
 model:
   params:
-    random_state: 42
-    max_depth: 5
+    max_iter: 100
 
 split:
   random_state: 42

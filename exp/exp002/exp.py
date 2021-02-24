@@ -3,7 +3,8 @@ import os
 import yaml
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+# from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
 import util
@@ -27,7 +28,7 @@ def run(run_name, config_update):
 
     # fit
     print(model_params)
-    model = DecisionTreeClassifier(**model_params)
+    model = LogisticRegression(**model_params)
     model.fit(X_train, y_train)
 
     # pred
@@ -44,17 +45,30 @@ def exp():
         '''
         model:
             params:
-                max_depth: 1
+                max_iter: 10
+        split:
+            random_state: 1
         ''',
         '''
         model:
             params:
-                max_depth: 2
+                max_iter: 30
+        split:
+            random_state: 2
         ''',
         '''
         model:
             params:
-                max_depth: 3
+                max_iter: 60
+        split:
+            random_state: 3
+        ''',
+        '''
+        model:
+            params:
+                max_iter: 80
+        split:
+            random_state: 4
         ''',
     ]
 
